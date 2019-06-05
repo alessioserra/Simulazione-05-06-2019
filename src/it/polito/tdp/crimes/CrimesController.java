@@ -11,9 +11,12 @@ import java.util.ResourceBundle;
 
 import org.jgrapht.Graphs;
 
+import com.zaxxer.hikari.util.SuspendResumeLock;
+
 import it.polito.tdp.model.District;
 import it.polito.tdp.model.DistrictDistance;
 import it.polito.tdp.model.Model;
+import it.polito.tdp.model.Simulatore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -78,7 +81,19 @@ public class CrimesController {
 
     @FXML
     void doSimula(ActionEvent event) {
+    	
+    	Simulatore sim = new Simulatore();
 
+    	//Prendo variabili
+    	int N = Integer.parseInt(txtN.getText());
+    	Year year = boxAnno.getValue();
+    	int month = boxMese.getValue();
+    	int day = boxGiorno.getValue();
+    	
+    	sim.init(N, year, month, day);
+    	int result = sim.run();
+    	
+    	txtResult.appendText("Numero di eventi mal gestiti: "+result);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

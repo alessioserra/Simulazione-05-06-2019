@@ -19,7 +19,7 @@ public class EventsDao {
 	
 	public District getDistrettoLessCrime(Year year, int month, int day) {
 		
-	String sql="SELECT DISTINCT district_id, AVG(geo_lon) AS avgLon, AVG(geo_lat) AS avgLat, SUM(is_crime) AS criminalita FROM events WHERE Year(reported_date)=? AND Month(reported_date)=? AND Day(reported_date)=?";
+	String sql="SELECT DISTINCT district_id, AVG(geo_lon) AS avgLon, AVG(geo_lat) AS avgLat, SUM(is_crime) AS criminalita FROM events WHERE Year(reported_date)=? AND Month(reported_date)=? AND Day(reported_date)=? ORDER BY reported_date";
 	
 	District d= new District(0, 0.0, 0.0);
 	
