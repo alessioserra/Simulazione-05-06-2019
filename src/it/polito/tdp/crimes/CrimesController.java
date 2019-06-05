@@ -35,10 +35,10 @@ public class CrimesController {
     private ComboBox<Year> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
-    private ComboBox<?> boxMese; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxGiorno"
-    private ComboBox<?> boxGiorno; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxGiorno; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnCreaReteCittadina"
     private Button btnCreaReteCittadina; // Value injected by FXMLLoader
@@ -96,6 +96,8 @@ public class CrimesController {
     public void setModel(Model model) {
     	this.model = model;
     	boxAnno.getItems().addAll(model.getYears());
+    	boxMese.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+    	boxGiorno.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
     	
     }
 }

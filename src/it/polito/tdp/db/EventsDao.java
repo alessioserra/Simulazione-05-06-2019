@@ -17,12 +17,62 @@ import it.polito.tdp.model.Event;
 
 public class EventsDao {
 	
-	public List<Event> listAllEvents(){
-		String sql = "SELECT * FROM events" ;
+	public District getDistrettoLessCrime(Year year, int month, int day) {
+		
+	String sql="SELECT DISTINCT district_id, AVG(geo_lon) AS avgLon, AVG(geo_lat) AS avgLat, SUM(is_crime) AS criminalita FROM events WHERE Year(reported_date)=? AND Month(reported_date)=? AND Day(reported_date)=?";
+	
+	District d= new District(0, 0.0, 0.0);
+	
+	try {
+		Connection conn = DBConnect.getConnection() ;
+		PreparedStatement st = conn.prepareStatement(sql) ;
+		
+		//Set parameter
+		st.setInt(1, year.getValue());
+		st.setInt(2, month);
+		st.setInt(3, day);
+		
+		ResultSet res = st.executeQuery() ;
+		
+		//Inizializzo criminalita
+		int criminalita = 1000000;
+		
+		while(res.next()) {
+
+			if ( res.getInt("criminalita") < criminalita ) {
+				
+				double avgLon = res.getDouble("avgLon");
+				double avgLat = res.getDouble("avgLat");		
+				int id = res.getInt("district_id");
+				
+				d= new District(id, avgLon, avgLat);
+			}
+			
+		}
+		
+		 conn.close();
+		 return d ;
+	
+	   } catch (SQLException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 return null ;
+	   }
+	
+	
+	
+	}
+	public List<Event> listAllEvents(Year year, int month, int day){
+		String sql = "SELECT * FROM events WHERE Year(reported_date)=? AND Month(reported_date)=? AND Day(reported_date)=?"  ;
 		try {
 			Connection conn = DBConnect.getConnection() ;
 
 			PreparedStatement st = conn.prepareStatement(sql) ;
+			
+			//Set parameter
+			st.setInt(1, year.getValue());
+			st.setInt(2, month);
+			st.setInt(3, day);
 			
 			List<Event> list = new ArrayList<>() ;
 			
@@ -44,6 +94,7 @@ public class EventsDao {
 							res.getString("neighborhood_id"),
 							res.getInt("is_crime"),
 							res.getInt("is_traffic")));
+					
 				} catch (Throwable t) {
 					t.printStackTrace();
 					System.out.println(res.getInt("id"));
@@ -126,8 +177,6 @@ public class EventsDao {
 			e.printStackTrace();
 			return null ;
 		}
-
-		
-		
     }
+	
 }
