@@ -61,6 +61,7 @@ public class CrimesController {
     	//Pulisco
     	txtResult.clear();
     	
+    	try {
     	Year year = boxAnno.getValue();
     	
     	//Creo Grafo
@@ -70,13 +71,18 @@ public class CrimesController {
     		//Ottengo i vicini gia'ordinati
     		List<DistrictDistance> result = model.getVicini(d);
     		
-    		txtResult.appendText("Lista distretti per distanza dal distretto: +"+d+"\n");
+    		txtResult.appendText("Lista distretti per distanza dal distretto: "+d+"\n");
     		
     		//Stampola lista dei distretti ordinati per distanza crescente dal distretto selezionato
     		for (DistrictDistance dd : result) txtResult.appendText(dd.toString()+"\n");
     		
     		txtResult.appendText("\n");
     	}
+    	
+    	}catch (Exception e) {
+			txtResult.appendText("Selezionare un anno corretto!\n");
+		}
+    	
     }
 
     @FXML
